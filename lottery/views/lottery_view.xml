@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <menuitem id="lottery_menu_root"
+            name="Lottery"
+            sequence="30"/>
+            
+        
+
+        <record id="view_lottery_search" model="ir.ui.view">
+            <field name="name">lottery.search</field>
+            <field name="model">lottery</field>
+            <field name="arch" type="xml">
+                <search string="Lottery">
+                    <field name="name"  string="Lottery"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_lottery_tree" model="ir.ui.view">
+            <field name="name">lottery.tree</field>
+            <field name="model">lottery</field>
+            <field name="arch" type="xml">
+                <tree string="Lottery">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="draw_number"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_lottery_form" model="ir.ui.view">
+            <field name="name">lottery.form</field>
+            <field name="model">lottery</field>
+            <field name="arch" type="xml">
+                <form string="Lottery">
+                    <header>
+                    <button name="action_confirm" data-hotkey="v"
+                        string="Confirm" type="object"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+                </header>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="draw_number"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_lottery_form" model="ir.actions.act_window">
+            <field name="name">Lotteries</field>
+            <field name="res_model">lottery</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_lottery_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new Lottery
+              </p><p>
+                An Lottery is used to determine how an account is used in
+                each journal. The deferral method of an Lottery determines
+                the process for the annual closing. Reports such as the Balance
+                Sheet and the Profit and Loss report use the category
+                (profit/loss or balance sheet).
+              </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_lottery"
+            name="Orders"
+            action="action_lottery_form"
+            parent="lottery_menu_root"
+            sequence="2" groups="sales_team.group_sale_salesman"/>
+
+    </data>
+</odoo>
